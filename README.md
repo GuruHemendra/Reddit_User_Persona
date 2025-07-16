@@ -129,3 +129,61 @@ Run a basic test using:
 ```bash
 python unit_tests/test_basic.py
 ```
+
+
+---
+
+## 🧪 Sample Output from Stage 2: Personality & Emotion Analysis
+
+
+
+✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨  
+### 🧠 MBTI Personality Analysis  
+✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨
+
+**MBTI Personality Type Prediction:**  
+Predicted Type: **ENTJ**
+
+**Dimension Scores:**
+- Extraversion (E) vs Introversion (I): `0.004`
+- Sensing (S) vs Intuition (N): `-0.002`
+- Thinking (T) vs Feeling (F): `0.000`
+- Judging (J) vs Perceiving (P): `0.000`
+
+---
+
+✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨  
+### 🌟 Big Five Personality Analysis  
+✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨
+
+**Big Five Personality Prediction:**
+- Extroversion: `0.0101`
+- Neuroticism: `0.0213`
+- Agreeableness: `-0.0413`
+- Conscientiousness: `-0.3150`
+- Openness: `-0.0701`
+
+---
+
+✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨  
+### 📊 Subreddit Emotion Summary  
+✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨
+
+**Top Subreddits by Interactions:**
+
+**1. r/amioverreacting**
+- Interactions: `2`  
+- Most Common Top Emotion: `fear`  
+- Average Emotions:
+  - fear: `0.6398`
+  - anger: `0.0390`
+  - sadness: `0.0098`
+  - joy: `0.2990`
+  - surprise: `0.0097`
+  - love: `0.0027`
+
+---
+
+✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨  
+🎉 **Thanks for exploring your personality and emotions with us!**  
+💬 _Stay curious, keep shining, and feel free to reach out for more insights anytime!_ 🚀  
