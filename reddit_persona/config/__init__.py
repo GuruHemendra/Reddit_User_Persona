@@ -105,31 +105,48 @@ class RedditConfig:
             return None
         
 
+import yaml
+import os
+
 class LLMConfig:
-    """Class to manage predefined API configuration values for Hugging Face LLM token."""
+    """Class to manage Hugging Face LLM configuration including token and model ID."""
 
     CONFIG_FIELDS = [
         "HF_TOKEN",
+        "MODEL_ID"
     ]
 
-    def __init__(self,token, yaml_path=None, **kwargs):
+    def __init__(self, hf_token=None, model_id=None, yaml_path=None):
         """
-        Initializes the configuration, either from a YAML file or provided arguments.
+        Initialize config either from direct input, a YAML file, or environment variables.
 
         Args:
-            yaml_path (str, optional): Path to the YAML configuration file.
-            kwargs (dict): Additional configuration fields as key-value pairs.
+            hf_token (str, optional): Hugging Face access token.
+            model_id (str, optional): Model ID to use (e.g., 'mistralai/Mistral-7B-Instruct-v0.1').
+            yaml_path (str, optional): Path to YAML file with config fields.
         """
         self.config = {field: None for field in self.CONFIG_FIELDS}
 
+        # Priority 1: Direct arguments
+        if hf_token:
+            self.config["HF_TOKEN"] = hf_token
+        if model_id:
+            self.config["MODEL_ID"] = model_id
+
+        # Priority 2: YAML file
         if yaml_path:
             self.load_from_yaml(yaml_path)
 
-        self.config.update(kwargs)
+        # Priority 3: Environment variables
+        for field in self.CONFIG_FIELDS:
+            if self.config[field] is None:
+                self.config[field] = os.getenv(field)
+
+        # Priority 4: Prompt user
         self.load_from_input()
 
     def load_from_yaml(self, yaml_path):
-        """Loads configuration from a YAML file."""
+        """Load configuration from a YAML file."""
         try:
             with open(yaml_path, 'r') as file:
                 config_data = yaml.safe_load(file)
@@ -137,40 +154,31 @@ class LLMConfig:
                     if field in config_data:
                         self.config[field] = config_data[field]
         except FileNotFoundError:
-            print(f"Error: The file at {yaml_path} was not found.")
+            print(f"❌ Error: The file at {yaml_path} was not found.")
         except yaml.YAMLError as e:
-            print(f"Error parsing YAML file: {e}")
+            print(f"❌ Error parsing YAML file: {e}")
 
     def load_from_input(self):
-        """Prompts the user for input if any required configuration values are missing."""
-        for field_name in self.CONFIG_FIELDS:
-            if self.config[field_name] is None:
-                self.config[field_name] = self.ask_user_input(field_name)
+        """Prompt user for any missing fields."""
+        for field in self.CONFIG_FIELDS:
+            if not self.config.get(field):
+                self.config[field] = self.ask_user_input(field)
 
     def ask_user_input(self, field_name):
-        """Prompts the user to input a value for the specified configuration field."""
-        current_value = self.config.get(field_name)
-        if current_value:
-            response = input(
-                f"'{field_name}' already exists as '{current_value}'. Would you like to use it? (y/n): "
-            ).strip().lower()
-            if response == 'y':
-                return current_value
-
+        """Ask user to enter the value for a missing field."""
         return input(f"Please enter the value for {field_name}: ").strip()
 
     def display_config(self):
-        """Displays the current configuration."""
-        print("Displaying Config...")
-        for k in self.config.keys():
-            print(f"{k} : {self.config[k]}")
+        """Display and return current configuration."""
+        print("🔧 LLM Configuration:")
+        for k, v in self.config.items():
+            print(f" - {k}: {v}")
         return self.config
 
     def get(self, field_name):
-        """Retrieves the value for the specified configuration field."""
+        """Safely retrieve a configuration field."""
         if field_name in self.CONFIG_FIELDS:
             return self.config.get(field_name)
         else:
-            print(f"Error: '{field_name}' is not a valid configuration field.")
+            print(f"⚠️ Error: '{field_name}' is not a valid configuration field.")
             return None
-

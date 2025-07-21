@@ -136,7 +136,7 @@ python unit_tests/test_basic.py
 ## 🧪 Sample Output from Stage 2: Personality & Emotion Analysis
 
 
-
+```
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨  
 ### 🧠 MBTI Personality Analysis  
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨
@@ -187,3 +187,5 @@ Predicted Type: **ENTJ**
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨  
 🎉 **Thanks for exploring your personality and emotions with us!**  
 💬 _Stay curious, keep shining, and feel free to reach out for more insights anytime!_ 🚀  
+
+```

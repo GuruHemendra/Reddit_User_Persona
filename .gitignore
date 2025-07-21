@@ -201,6 +201,8 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+unit_tests/chroma_db 
+
 # Marimo
 marimo/_static/
 marimo/_lsp/

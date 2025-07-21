@@ -1,9 +1,11 @@
 import chromadb
 from sentence_transformers import SentenceTransformer
+import os
 
 class DatabaseManager:
-    def __init__(self, chroma_path="./chroma_db", collection_name="reddit_user_data", embedding_model_name="all-MiniLM-L6-v2"):
+    def __init__(self, path, collection_name="reddit_user_data", embedding_model_name="all-MiniLM-L6-v2"):
         # Initialize ChromaDB client and collection
+        chroma_path = os.path.join(path,"./chroma_db")
         self.chroma_client = chromadb.PersistentClient(path=chroma_path)
         self.collection = self.chroma_client.get_or_create_collection(name=collection_name)
         # Load embedding model

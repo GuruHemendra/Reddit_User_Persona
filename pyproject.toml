@@ -16,9 +16,8 @@ dependencies = [
     "sentence_transformers>=2.0.0",      # For sentence embeddings
     "transformers>=4.0.0",               # Hugging Face Transformers
     "huggingface-hub>=0.10.0",            # Hugging Face Hub integration
-    "langchain>=0.0.150",                # LangChain for chaining language models
-    "langchain_community>=0.0.10",       # LangChain community tools
-    "langchain_huggingface>=0.0.5",       # LangChain integration with Hugging Face
+    "langchain_huggingface>=0.0.5",      # LangChain integration with Hugging Face
     "PyYaml",
-    "torch"
+    "torch",
+    "langchain-community>=0.2.0",        # Ensure this is the latest version of langchain-community
 ]

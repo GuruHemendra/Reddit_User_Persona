@@ -4,7 +4,8 @@ import json
 import os
 from collections import defaultdict
 from urllib.parse import urlparse
-
+from pathlib import Path
+import shutil
 
 class DataCollection:
     """A class to collect and save Reddit user data as JSON."""
@@ -25,6 +26,18 @@ class DataCollection:
             user_agent=reddit_user_agent
         )
 
+    def create_folder(self,folder_name):
+        """Deletes the existing folder if it exists, then creates a new one and returns its path."""
+        path = Path(folder_name)
+        
+        if path.exists():
+            print(f"Folder '{folder_name}' already exists. Deleting it...")
+            shutil.rmtree(path)  # Recursively delete the folder and its contents
+        
+        # Now, create the folder
+        path.mkdir(parents=True, exist_ok=True)
+        print(f"Folder '{folder_name}' created successfully.")
+        return path
 
     def extract_username(self, user_url):
         """
@@ -154,11 +167,11 @@ class DataCollection:
             user_info (dict): User information used to name the file.
         """
         # Create the 'utils' folder if it doesn't exist
-        utils_folder = os.path.join(os.getcwd(), 'utils')
-        os.makedirs(utils_folder, exist_ok=True)
+        # utils_folder = os.path.join(self.path, 'utils')
+        # os.makedirs(utils_folder, exist_ok=True)
         
         # Define the filename for the output
-        filename = os.path.join(utils_folder, f"{user_info['username']}_reddit_export.json")
+        filename = os.path.join(self.path, f"{user_info['username']}_reddit_export.json")
 
         # Write the output to the file
         with open(filename, "w", encoding="utf-8") as f:
@@ -177,7 +190,7 @@ class DataCollection:
         print("Initializing User Data Retrival..")
         username = self.extract_username(user_url)
         redditor = self.reddit.redditor(username)
-
+        self.path = self.create_folder(username)
         user_info = self.fetch_user_info(redditor)
         subreddits_master = {}
         subreddit_interactions_count = defaultdict(int)
@@ -270,7 +283,7 @@ class DataCollection:
 
         # Save the output to JSON file
         filename = self.save_json(output, user_info)
-        return filename
+        return filename,self.path
     
 
 

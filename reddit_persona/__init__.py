@@ -4,6 +4,8 @@ from reddit_persona.data_collection import DataCollection
 import json
 import os
 from reddit_persona.non_llm_analytics import NonLLMAnalysis
+from reddit_persona.llm_analytics import LlmManager
+
 
 def is_yaml_file_present(file_path):
     """
@@ -44,16 +46,23 @@ def load_json(filepath):
         print(f"Error : {e}")
 
 
+
+    
+
+
 def run():
     user_input = input("User Profile Url..")
     config = RedditConfig(r'utils\defaultconfig.yaml')
     config.display_config()
     datacollection = DataCollection(reddit_client_id=config.get('REDDIT_CLIENT_ID'),reddit_client_secret=config.get('REDDIT_CLIENT_SECRET'),reddit_user_agent=config.get('REDDIT_USER_AGENT'))
-    filename = datacollection.generate_reddit_user_json(user_input)
+    filename,folder_path = datacollection.generate_reddit_user_json(user_input)
     reddit_data = load_json(filename)
     nonllmanalysis = NonLLMAnalysis(reddit_data=reddit_data)
     analysis = nonllmanalysis.run_analysis()
     new_data = analysis['reddit_data']
+    llm_manager = LlmManager(data = new_data,path=folder_path)
+    llm_manager.run()
+
 
 
 

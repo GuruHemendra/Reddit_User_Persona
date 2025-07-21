@@ -7,7 +7,7 @@ from reddit_persona.llm_analytics.databasemanager import DatabaseManager
 
 class LlmManager:
 
-    def __init__(self, data, token, model_id, max_new_tokens=512, temperature=0.7):
+    def __init__(self,path, data, token=None, model_id="meta-llama/Llama-3.2-1B", max_new_tokens=512, temperature=0.7):
         self.reddit_data = data
         self.token = token
         self.model_id = model_id
@@ -15,9 +15,17 @@ class LlmManager:
         self.temperature = temperature
         self.collection = None
         self.chain = None
+        self.path = path
+        self.prebuild_questions = [
+            "What are the goals of the user ?",
+            "What are the regular routines of the user?",
+            "What era can the user be like in the context like Gen-Z, Milinieal , Gen-X",
+            "What are the behavioural patterns observed?",
+            "What are the likes and dislikes of the user?"
+        ]
 
     def build_database(self):
-        builder = DatabaseManager()
+        builder = DatabaseManager(path=self.path)
         self.collection = builder.upload_reddit_user_data(self.reddit_data)
 
     def build_chain(self):
@@ -67,3 +75,27 @@ Answer:"""
         if not self.chain:
             raise RuntimeError("LLM chain not built. Call build_chain() first.")
         return self.chain.run(question)
+    
+    def predetermined_qa(self):
+        if len(self.prebuild_questions):
+            print("Pre Determined Queries:.......")
+        for q in self.prebuild_questions:
+            print("--------------------------------")
+            print(f"{q} \n {self.ask(q)}")
+            print("-----------------------")
+
+    def run(self):
+        self.build_database()
+        # self.build_chain()
+        # self.predetermined_qa()
+        # commited = True
+        # while commited:
+        #     question = input("Ask anything you like know about user .... \n To exit enter \" NO \" ")
+        #     if question == "NO":
+        #         commited = False
+        #     else :
+        #         answer = self.ask(question=question)
+        #         print(answer)
+        # print("Thankyou for work with us... from RAG")
+
+        
